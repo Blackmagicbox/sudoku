@@ -1,0 +1,27 @@
+.canvas {
+    display: flex;
+    justify-content: start;
+    align-content: space-between;
+    flex-wrap: wrap;
+    border: solid darkslategrey 2px;
+    background-color: brown;
+    width: 400px;
+    height: 400px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+.group {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background-color: white;
+    width: 32%;
+    height: 32.4%;
+    margin-left: 4px;
+}
+.cell {
+    border: solid #eeeeee 1px;
+    width: 31%;
+    height: 32%;
+}

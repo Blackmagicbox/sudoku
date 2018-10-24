@@ -1,8 +1,6 @@
 'use strict';
 function main() {
     function initializeBoard() {
-        const _board = getModel();
-
         function getModel() {
             const _keys = [...Array.apply(null, {length: 81})].map((v,i) => i + 1);
             let _model = {};
@@ -14,13 +12,47 @@ function main() {
         }
 
         function renderBoard() {
+            const rootEl = document.querySelector('#board');
+            const canvas = document.createElement('div');
+            canvas.classList.add('canvas');
 
+            function renderGroup(canvas, parentId) {
+                Array.apply(null, {length: 9}).map((v,i) => {
+                    v = document.createElement('div');
+                    v.classList.add('cell');
+                    if (i === 8) {
+                        v.setAttribute('id', `cell-${parentId}${0}`);
+                        return canvas.appendChild(v);
+                    }
+                    v.setAttribute('id', `cell-${parentId}${i}`);
+                    return canvas.appendChild(v);
+                });
+                return canvas;
+            }
+            function renderSet(set, parentId) {
+                Array.apply(null, {length: 9}).map((v,i) => {
+                    v = document.createElement('div');
+                    v.classList.add('group');
+                    if (i === 8) {
+                        v.setAttribute('id', `group-${parentId}`);
+                        renderGroup(v, i);
+                        return set.appendChild(v, parentId);
+                    }
+                    v.setAttribute('id', `group-${parentId}`);
+                    renderGroup(v, i);
+                    return set.appendChild(v, parentId);
+                });
+            }
+            renderSet(canvas, 1);
+            rootEl.appendChild(canvas);
+            return console.log('Rendering sudoku board...');
         }
 
+        window.board = getModel();
+        return renderBoard();
     }
 
     return initializeBoard();
-    console.log(window.board);
 }
 
 function isValid(pos, value) {
@@ -32,7 +64,6 @@ function isValid(pos, value) {
     }
 
     function isUnique(list, value){
-        console.log(list);
         return list.every((item) => {
             return _board[parseInt(item, 9)].value !== value
         });
@@ -105,7 +136,6 @@ function isValid(pos, value) {
     }
     return isNatural() && isLegal();
 }
-
 function handleValueChange(i, value) {
     if (!i) {
         throw new Error('Position is a mandatory parameter!');
